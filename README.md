@@ -1,7 +1,7 @@
 # DataMining_FakeNews
 CSCE474 Class Project
 
-Team members: Cristian Lopez, Jackson Maschman, Karima Sindermann, Quan Nguyen (Max), Sebastian Vazquez-Gasty
+Team members: Cristian Lopez, Jackson Maschman, Karina Sindermann, Quan Nguyen (Max), Sebastian Vazquez-Gasty
 
 `src` folders store all the source codes from preprocessing, algorithm to post-processing.
 
