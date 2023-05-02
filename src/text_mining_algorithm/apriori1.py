@@ -54,6 +54,31 @@ combined_fnn['label'] = combined_fnn['label'].map({'false': 0, 'true': 1})
 # combined_liar_fnn =pd.concat([combined_liar[["id", "label", "statement"]], combined_fnn])
 combined_liar_fnn =pd.concat([combined_liar[["statement","label"]], combined_fnn])
 
+#%%
+import string
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+
+# Define a function to preprocess text data
+def preprocess_text(text):
+    # Remove punctuation
+    text = text.translate(str.maketrans('', '', string.punctuation+'-–‘’“”' ))
+    
+    # Convert to lowercase
+    text = text.lower()
+    
+    # Remove stop words
+    stop_words = set(stopwords.words('english'))
+    tokens = nltk.word_tokenize(text)
+    filtered_tokens = [word for word in tokens if word not in stop_words]
+    text = ' '.join(filtered_tokens)
+    
+    return text
+
+# Preprocess the text data
+combined_liar_fnn['statement'] = combined_liar_fnn['statement'].apply(preprocess_text)
 
 #%% Apriori
 
@@ -83,30 +108,34 @@ for sentence in sentences:
 te = TransactionEncoder()
 te_ary = te.fit_transform(transactions)
 transaction_df = pd.DataFrame(te_ary, columns=te.columns_)
-
-# Step 4: Apply Apriori algorithm
-frequent_itemsets = apriori(transaction_df, min_support=0.01, use_colnames=True)
-rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.1)
+dfvfd
+#%% Step 4: Apply Apriori algorithm
+frequent_itemsets = apriori(transaction_df, min_support=0.004, use_colnames=True)
+#%%
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
 
 # Extract rules or perform other analyses as needed
 
 #%%
-# Convert dataset to one-hot encoded format
+onlyfake_l = dataset[dataset['label'] == 0]
+onlyfake_n = onlyfake_l[['statement']]
 
-# te = TransactionEncoder()
-# te_ary = te.fit(dataset).transform(dataset)
-# df = pd.DataFrame(te_ary, columns=te.columns_)
+# Step 1: Load sentences
+sentences_n = onlyfake_n['statement'].tolist()
+# Preprocessing steps here, e.g., tokenization, stopword removal, etc.
 
-# # Run Apriori algorithm to find frequent itemsets
-# frequent_itemsets = apriori(df, min_support=0.3, use_colnames=True)
+# Step 2: Convert sentences to transactions
+transactions_n = []
+for sentence_n in sentences_n:
+    transaction_n = sentence_n.split()  # Split sentence into items (words)
+    transactions_n.append(transaction_n)
 
-# # Extract association rules from frequent itemsets
-# rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+# Step 3: Create transaction dataset
+te_n = TransactionEncoder()
+te_ary_n = te_n.fit_transform(transactions_n)
+transaction_df_n = pd.DataFrame(te_ary_n, columns=te_n.columns_)
 
-# # Filter rules based on criteria, e.g., antecedent and consequent
-# fake_news_rules = rules[ (rules['antecedents'].apply(lambda x: 'fake' in x))
-#                   | (rules['consequents'].apply(lambda x: 'fake' in x))]
-
-# # Print the resulting fake news rules
-# print("Fake News Rules:")
-# print(fake_news_rules)
+#%% Step 4: Apply Apriori algorithm
+frequent_itemsets_n = apriori(transaction_df_n, min_support=0.004, use_colnames=True)
+#%%
+rules_n = association_rules(frequent_itemsets_n, metric="confidence", min_threshold=0.5)
