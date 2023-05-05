@@ -38,12 +38,15 @@ combined_liar['label'] = combined_liar['label'].map(
 
 combined_fnn = pd.concat([fnn_df_gossip_fake, fnn_df_gossip_real, fnn_df_polit_fake, fnn_df_polit_real])
 # Removing rows with missing values
+
 combined_fnn.dropna(inplace=True)
 # Converting labels to numerical values
 combined_fnn['label'] = combined_fnn['label'].map({'false': 0, 'true': 1})
 
 combined_liar_fnn = pd.concat([combined_liar[["statement", "label"]], combined_fnn])
-
+# print(combined_liar_fnn)
+# combined_liar_fnn.to_csv('raw_dataset_all.csv', index=False)
+# exit(0)
 import string
 import nltk
 
