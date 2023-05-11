@@ -2,9 +2,11 @@ import csv
 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
-from matplotlib.ticker import PercentFormatter
 
 sia = SentimentIntensityAnalyzer()
+
+#all lists (superlatives, comparatives, etc) in this files are obtained from using Quirkos.
+
 superlatives = ["fastest", "quickest", "tallest", "longest", "shortest", "oldest", "freshest", "heaviest", "lightest",
                 "brightest", "darkest", "clearest", "foggiest", "hottest", "coldest", "busiest", "loudest", "quietest",
                 "smallest", "biggest", "most expensive", "least expensive", "most popular", "least popular",
@@ -156,47 +158,47 @@ with open(filepath, newline='', encoding='utf-8') as csvfile:
         else:
             cnt_false += 1
         statement = str(row[0]).lower()
-        # for superlative in superlatives:
-        #     if superlative in statement:
-        #         # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
-        #         if int(row[1]) == 1:
-        #             cnt1_superlatives += 1
-        #         else:
-        #             cnt0_superlatives += 1
-        #
-        # for comparative in comparatives:
-        #     if comparative in statement:
-        #         # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
-        #         if int(row[1]) == 1:
-        #             cnt1_comparatives += 1
-        #         else:
-        #             cnt0_comparatives += 1
-        #
-        # for exaggerating_word in extreme_words:
-        #     if exaggerating_word in statement:
-        #         # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
-        #         if int(row[1]) == 1:
-        #             cnt1_exaggerating += 1
-        #         else:
-        #             cnt0_exaggerating += 1
-        #
-        # if has_pronoun(statement):
-        #     if int(row[1]) == 1:
-        #         cnt1_pronoun += 1
-        #     else:
-        #         cnt0_pronoun += 1
-        #
-        # if has_pronoun_first_seconod(statement):
-        #     if int(row[1]) == 1:
-        #         cnt1_pronoun_first += 1
-        #     else:
-        #         cnt0_pronoun_first += 1
-        #
-        # if check_sensational_language(statement):
-        #     if int(row[1]) == 1:
-        #         cnt1_sensational += 1
-        #     else:
-        #         cnt0_sensational += 1
+        for superlative in superlatives:
+            if superlative in statement:
+                # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
+                if int(row[1]) == 1:
+                    cnt1_superlatives += 1
+                else:
+                    cnt0_superlatives += 1
+
+        for comparative in comparatives:
+            if comparative in statement:
+                # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
+                if int(row[1]) == 1:
+                    cnt1_comparatives += 1
+                else:
+                    cnt0_comparatives += 1
+
+        for exaggerating_word in extreme_words:
+            if exaggerating_word in statement:
+                # print(f"Line {line_count} contains a superlative, and label is {row[1]}")
+                if int(row[1]) == 1:
+                    cnt1_exaggerating += 1
+                else:
+                    cnt0_exaggerating += 1
+
+        if has_pronoun(statement):
+            if int(row[1]) == 1:
+                cnt1_pronoun += 1
+            else:
+                cnt0_pronoun += 1
+
+        if has_pronoun_first_seconod(statement):
+            if int(row[1]) == 1:
+                cnt1_pronoun_first += 1
+            else:
+                cnt0_pronoun_first += 1
+
+        if check_sensational_language(statement):
+            if int(row[1]) == 1:
+                cnt1_sensational += 1
+            else:
+                cnt0_sensational += 1
 
         score = sentiment_analysis(statement)
         if int(row[1]) == 1:
@@ -215,18 +217,18 @@ with open(filepath, newline='', encoding='utf-8') as csvfile:
                 cnt_sentiment[3] += 1
 
     ratio = 1.0 * cnt_false / cnt_true
-    # print('Superlatives ', cnt1_superlatives, cnt1_superlatives * ratio, cnt0_superlatives,
-    #       100.0 * cnt0_superlatives / (cnt1_superlatives * ratio + cnt0_superlatives))
-    # print('Comparatives ', cnt1_comparatives, cnt1_comparatives * ratio, cnt0_comparatives,
-    #       100.0 * cnt0_comparatives / (cnt1_comparatives * ratio + cnt0_comparatives))
-    # print('Exaggerating ', cnt1_exaggerating, cnt1_exaggerating * ratio, cnt0_exaggerating,
-    #       100.0 * cnt0_exaggerating / (cnt1_exaggerating * ratio + cnt0_exaggerating))
-    # print('Sensational ', cnt1_sensational, cnt1_sensational * ratio, cnt0_sensational,
-    #       100.0 * cnt0_sensational / (cnt1_sensational * ratio + cnt0_sensational))
-    # print('Pronoun ', cnt1_pronoun, cnt1_pronoun * ratio, cnt0_pronoun,
-    #       100.0 * cnt0_pronoun / (cnt1_pronoun * ratio + cnt0_pronoun))
-    # print('First and second Pronoun ', cnt1_pronoun_first, cnt1_pronoun_first * ratio, cnt0_pronoun_first,
-    #       100.0 * cnt0_pronoun_first / (cnt1_pronoun_first * ratio + cnt0_pronoun_first))
+    print('Superlatives ', cnt1_superlatives, cnt1_superlatives * ratio, cnt0_superlatives,
+          100.0 * cnt0_superlatives / (cnt1_superlatives * ratio + cnt0_superlatives))
+    print('Comparatives ', cnt1_comparatives, cnt1_comparatives * ratio, cnt0_comparatives,
+          100.0 * cnt0_comparatives / (cnt1_comparatives * ratio + cnt0_comparatives))
+    print('Exaggerating ', cnt1_exaggerating, cnt1_exaggerating * ratio, cnt0_exaggerating,
+          100.0 * cnt0_exaggerating / (cnt1_exaggerating * ratio + cnt0_exaggerating))
+    print('Sensational ', cnt1_sensational, cnt1_sensational * ratio, cnt0_sensational,
+          100.0 * cnt0_sensational / (cnt1_sensational * ratio + cnt0_sensational))
+    print('Pronoun ', cnt1_pronoun, cnt1_pronoun * ratio, cnt0_pronoun,
+          100.0 * cnt0_pronoun / (cnt1_pronoun * ratio + cnt0_pronoun))
+    print('First and second Pronoun ', cnt1_pronoun_first, cnt1_pronoun_first * ratio, cnt0_pronoun_first,
+          100.0 * cnt0_pronoun_first / (cnt1_pronoun_first * ratio + cnt0_pronoun_first))
     print('cnt ', cnt_true, cnt_false)
     print('Sentiment ', cnt_sentiment)
     print('Sentiment_weighted ', cnt_sentiment[0] * ratio, cnt_sentiment[1], cnt_sentiment[2] * ratio, cnt_sentiment[3])
