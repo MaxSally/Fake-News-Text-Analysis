@@ -1,0 +1,12 @@
+Once the data is uploaded, the displayed results are printed in the blocks: # Sort the rules based on support in descending order
+
+In the block: #%%%%%%%%%%% All data %%%%%%%%%%%
+- We can calculate a support value that allows to have an idea how to set it, which can ba calculated in the block: # Support guide calculation.
+- To obtain Figs. 2 and 3, we use min_support as 0.004 and 0.002, respectively. 
+
+In the block: #%%%%%%%%%%% Get only real news %%%%%%%%%%
+- Fig. 4 is obtained by using  min_support=0.004.
+- Table 4 was obtained by setting  min_support as 0.002 and the confidence value was changed in min_threshold as 0.9, 0.5, and 0.1.
+
+In the block: #%%%%%%%%%%% Get only fake news %%%%%%%%%%
+Fig. 5 is obtained by using  min_support as 0.004.
