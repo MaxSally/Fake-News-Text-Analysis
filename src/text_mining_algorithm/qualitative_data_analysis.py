@@ -217,6 +217,7 @@ with open(filepath, newline='', encoding='utf-8') as csvfile:
                 cnt_sentiment[3] += 1
 
     ratio = 1.0 * cnt_false / cnt_true
+    print("The outputs are in the following format:\n Category, count in real news dataset, weighted count in real news dataset, false news dataset, percentage of false news weight in this category.")
     print('Superlatives ', cnt1_superlatives, cnt1_superlatives * ratio, cnt0_superlatives,
           100.0 * cnt0_superlatives / (cnt1_superlatives * ratio + cnt0_superlatives))
     print('Comparatives ', cnt1_comparatives, cnt1_comparatives * ratio, cnt0_comparatives,
@@ -229,11 +230,11 @@ with open(filepath, newline='', encoding='utf-8') as csvfile:
           100.0 * cnt0_pronoun / (cnt1_pronoun * ratio + cnt0_pronoun))
     print('First and second Pronoun ', cnt1_pronoun_first, cnt1_pronoun_first * ratio, cnt0_pronoun_first,
           100.0 * cnt0_pronoun_first / (cnt1_pronoun_first * ratio + cnt0_pronoun_first))
-    print('cnt ', cnt_true, cnt_false)
-    print('Sentiment ', cnt_sentiment)
+    #print('cnt ', cnt_true, cnt_false)
+    #print('Sentiment ', cnt_sentiment)
     print('Sentiment_weighted ', cnt_sentiment[0] * ratio, cnt_sentiment[1], cnt_sentiment[2] * ratio, cnt_sentiment[3])
-    print(cnt_row)
-    print(ratio)
+    #print(cnt_row)
+    #print(ratio)
 
     import seaborn as sns
 
