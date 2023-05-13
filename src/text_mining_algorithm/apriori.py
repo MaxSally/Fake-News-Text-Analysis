@@ -8,7 +8,7 @@ pd.set_option('display.max_colwidth', None)
 dataset_filepath = '../../dataset/dataset.csv'
 dataset = pd.read_csv(dataset_filepath)
 
-run = 1 #0 = real, 1 = fake, 2 = all
+run = 2 #0 = real, 1 = fake, 2 = all
 detailed_print = 1
 
 if run == 0:
@@ -39,10 +39,10 @@ if run == 0:
 
     print(frequent_itemsets.shape)
 
-    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.9)
     selected_columns = ['antecedents', 'consequents', 'support', 'confidence']
 
-    #rules.to_csv('real_news_rules.csv', index=False)
+    rules.to_csv('real_news_rules.csv', index=False)
     print(rules.loc[:, selected_columns])
     antecedents_set = set(rules['antecedents'].tolist())
     consequents_set = set(rules['consequents'].tolist())
@@ -51,6 +51,12 @@ if run == 0:
     words = [list(word_set)[0] for word_set in combined_set]
     unique_words = set(words)
     print(unique_words)
+
+    # Sort the rules based on support in descending order
+    sorted_rules = rules.sort_values('confidence', ascending=False)
+
+    # Print the top 10 rules with highest support
+    print(sorted_rules.head(20))
 
 elif run == 1:
     # % Get only fake news
@@ -65,7 +71,7 @@ elif run == 1:
     # Step 2: Convert sentences to transactions
     transactions_n = []
     for sentence_n in sentences_n:
-        transaction_n = sentence_n.split()  # Split sentence into items (words)
+        transaction_n = str(sentence_n).split()  # Split sentence into items (words)
         transactions_n.append(transaction_n)
 
     # Step 3: Create transaction dataset.csv
@@ -77,7 +83,7 @@ elif run == 1:
 
     print(frequent_itemsets_n.shape)
 
-    rules_n = association_rules(frequent_itemsets_n, metric="confidence", min_threshold=0.5)
+    rules_n = association_rules(frequent_itemsets_n, metric="confidence", min_threshold=0.9)
     selected_columns = ['antecedents', 'consequents', 'support', 'confidence']
     rules_n.to_csv('fake_news_rules.csv', index=False)
     print(rules_n.loc[:, selected_columns])
@@ -89,6 +95,13 @@ elif run == 1:
     words_n = [list(word_set_n)[0] for word_set_n in combined_set_n]
     unique_words_n = set(words_n)
     print(unique_words_n)
+
+    # Sort the rules based on support in descending order
+    sorted_rules = rules_n.sort_values('confidence', ascending=False)
+
+    # Print the top 10 rules with highest support
+    print(sorted_rules.head(20))
+
 
 elif run == 2:
     # %% All data
@@ -103,7 +116,7 @@ elif run == 2:
     # Step 2: Convert sentences to transactions
     transactions_All = []
     for sentence in sentences_All:
-        transaction_All = sentence.split()  # Split sentence into items (words)
+        transaction_All = str(sentence).split()  # Split sentence into items (words)
         transactions_All.append(transaction_All)
 
     # Step 3: Create transaction dataset.csv
@@ -112,13 +125,14 @@ elif run == 2:
     transaction_df_All = pd.DataFrame(te_ary_All, columns=te_All.columns_)
 
     # %% Step 4: Apply Apriori algorithm
-    frequent_itemsets_All = apriori(transaction_df_All, min_support=0.002, use_colnames=True)
+    frequent_itemsets_All = apriori(transaction_df_All, min_support=0.004, use_colnames=True)
 
-    rules_All = association_rules(frequent_itemsets_All, metric="confidence", min_threshold=0.5)
+    rules_All = association_rules(frequent_itemsets_All, metric="confidence", min_threshold=0.9)
 
     print(frequent_itemsets_All.shape)
 
     selected_columns_All = ['antecedents', 'consequents', 'support', 'confidence']
+    rules_All.to_csv('entire_dataset_rules.csv', index=False)
     print(rules_All.loc[:, selected_columns_All])
 
     antecedents_set_All = set(rules_All['antecedents'].tolist())
@@ -128,3 +142,15 @@ elif run == 2:
     words_All = [list(word_set_All)[0] for word_set_All in combined_set_All]
     unique_words_All = set(words_All)
     print(unique_words_All)
+
+    # Sort the rules based on support in descending order
+    sorted_rules = rules_All.sort_values('confidence', ascending=False)
+
+    # Print the top 10 rules with highest support
+    print(sorted_rules.head(20))
+
+    # Set max_rows to display all the results
+    pd.options.display.max_rows = len(rules_All)
+
+    # Print the association rules dataframe
+    print(rules_All)

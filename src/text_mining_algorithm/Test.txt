@@ -1,0 +1,2 @@
+Select the "CSVLoader" converter from the dropdown list.
+Click the "OK" button to apply the converter and load the dataset.
