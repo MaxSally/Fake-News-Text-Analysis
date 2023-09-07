@@ -1,5 +1,5 @@
 # DataMining_FakeNews
-CSCE474 Class Project
+Project name: Analysis of Differences in Text between Real and Fake News
 
 Team members: Cristian Lopez, Karina Sindermann, Quan Nguyen (Max), Sebastian Vazquez-Gasty, Jackson Maschman, 
 
